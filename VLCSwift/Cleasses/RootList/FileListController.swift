@@ -9,21 +9,18 @@
 import UIKit
 
 class FileListController: UITableViewController {
-// MARK: - Property
-	private lazy var itemList: [String] = [String]()
-    private lazy var fileFullPathList : [String] = [String]()
     
-    private lazy var fileManager : NSFileManager = {
-        return NSFileManager.defaultManager()
-    }()
-    
-    
+    // MARK: - Property
+	fileprivate lazy var itemList: [String] = []
+    fileprivate lazy var fileFullPathList: [String] = []
+    fileprivate lazy var fileManager : FileManager = FileManager.default
+   
 
     // MARK: - LifeCycle
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
 		self.updateFileList()
 	}
 
@@ -32,10 +29,10 @@ class FileListController: UITableViewController {
 		// Dispose of any resources that can be recreated.
 	}
     
-    private func updateFileList() {
-        let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+    fileprivate func updateFileList() {
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         do {
-            itemList = try fileManager.contentsOfDirectoryAtPath(path)
+            itemList = try fileManager.contentsOfDirectory(atPath: path)
             fileFullPathList.removeAll()
             for fileName in itemList {
                 fileFullPathList.append((path + "/" + fileName))
@@ -48,23 +45,22 @@ class FileListController: UITableViewController {
     
 
 	// MARK: - Table view data source
-
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 1
 	}
 
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return itemList.count
 	}
 
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 		cell.textLabel?.text = itemList[indexPath.row]
 
 		return cell
 	}
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = VLCPlayerViewController.sharePlayer
         vc.path = fileFullPathList[indexPath.row]
         self.navigationController?.pushViewController(vc, animated: true)

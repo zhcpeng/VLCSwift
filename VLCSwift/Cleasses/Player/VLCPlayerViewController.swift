@@ -12,26 +12,24 @@ class VLCPlayerViewController: UIViewController {
 	// MARK: - Property
 	var path: String = ""
 
-	private lazy var backBubtton: UIButton = {
-		let button = UIButton.init(type: .Custom)
-//		button.setTitle("返回", forState: .Normal)
-//		button.titleLabel?.font = UIFont.systemFontOfSize(14)
-        button.setImage(UIImage.init(named: "vlc_back"), forState: .Normal)
-		button.rac_signalForControlEvents(.TouchUpInside).subscribeNext({ (_) in
-			self.navigationController?.popViewControllerAnimated(true)
+	fileprivate lazy var backBubtton: UIButton = {
+		let button = UIButton.init(type: .custom)
+        button.setImage(UIImage.init(named: "vlc_back"), for: UIControlState())
+		button.reactive.controlEvents(.touchUpInside).observeValues({ [weak self](_) in
+			_ = self?.navigationController?.popViewController(animated: true)
 		})
 		return button
 	}()
 
-	private lazy var player: VLCMediaPlayer = {
+	fileprivate lazy var player: VLCMediaPlayer = {
 		let player = VLCMediaPlayer()
 		player.drawable = self.playerView
 		return player
 	}()
     
-    private lazy var playerView : UIView = UIView()
+    fileprivate lazy var playerView : UIView = UIView()
     
-    private var isPlaying : Bool = true
+    fileprivate var isPlaying : Bool = true
 
 	// MARK: - LifeCycle
 	static let sharePlayer: VLCPlayerViewController = {
@@ -44,12 +42,12 @@ class VLCPlayerViewController: UIViewController {
 		// Do any additional setup after loading the view.
         
         self.view.addSubview(playerView)
-        playerView.snp_makeConstraints { (make) in
+        playerView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
 
         self.view.addSubview(backBubtton)
-        backBubtton.snp_makeConstraints { (make) in
+        backBubtton.snp.makeConstraints { (make) in
             make.top.left.equalTo(self.view).offset(30)
             make.left.equalTo(self.view).offset(15)
         }
@@ -59,10 +57,10 @@ class VLCPlayerViewController: UIViewController {
     
     }
 
-	override func viewWillAppear(animated: Bool) {
+	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
-		self.navigationController?.navigationBarHidden = true
+		self.navigationController?.isNavigationBarHidden = true
 
 		if !path.isEmpty {
 			let media = VLCMedia.init(path: path)
@@ -71,10 +69,10 @@ class VLCPlayerViewController: UIViewController {
 		}
 	}
 
-	override func viewWillDisappear(animated: Bool) {
+	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 
-		self.navigationController?.navigationBarHidden = false
+		self.navigationController?.isNavigationBarHidden = false
         self.player.stop()
 	}
 
@@ -90,9 +88,9 @@ class VLCPlayerViewController: UIViewController {
             self.player.play()
         }
         
-        self.backBubtton.hidden = false
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
-            self.backBubtton.hidden = true
+        self.backBubtton.isHidden = false
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
+            self.backBubtton.isHidden = true
         })
     }
 

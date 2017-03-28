@@ -195,6 +195,8 @@
 				TargetAttributes = {
 					ADE189DC1D4B6ECB009DA52B = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 47C825D252;
+						LastSwiftMigration = 0820;
 					};
 				};
 			};
@@ -256,7 +258,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		CBC86BDA11E393073A58995D /* [CP] Copy Pods Resources */ = {
@@ -391,6 +393,7 @@
 			baseConfigurationReference = F741CA62079352604A2466D2 /* Pods-VLCSwift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 47C825D252;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -398,10 +401,12 @@
 					"$(PROJECT_DIR)/VLCSwift/MobileVLCKit",
 				);
 				INFOPLIST_FILE = VLCSwift/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zhcpeng.VLCSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhcpeng.VLCSwift3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/VLCSwift/VLC-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				VALID_ARCHS = arm64;
 			};
 			name = Debug;
@@ -411,6 +416,7 @@
 			baseConfigurationReference = D3DC6D1CA01A1718BE3A57EB /* Pods-VLCSwift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 47C825D252;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -418,10 +424,12 @@
 					"$(PROJECT_DIR)/VLCSwift/MobileVLCKit",
 				);
 				INFOPLIST_FILE = VLCSwift/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zhcpeng.VLCSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhcpeng.VLCSwift3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/VLCSwift/VLC-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				VALID_ARCHS = arm64;
 			};
 			name = Release;
